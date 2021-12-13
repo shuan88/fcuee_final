@@ -1,3 +1,10 @@
+import matplotlib.pyplot as plt
+# import matplotlib.ticker as ticker
+import numpy as np
+# import seaborn as sns
+# import os, sys, shutil
+import scipy
+
 from os import listdir
 from os.path import isdir, isfile, join
 # from scipy import signal
@@ -16,12 +23,7 @@ from matplotlib.colors import ListedColormap
 # from numba import jit
 # from numba import vectorize
 
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-import numpy as np
-import seaborn as sns
-import os, sys, shutil
-import scipy
+
 
 # import tensorflow as tf
 
