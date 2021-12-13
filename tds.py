@@ -1,7 +1,7 @@
 from os import listdir
 from os.path import isdir, isfile, join
-from scipy import signal
-from mpl_toolkits.mplot3d import Axes3D
+# from scipy import signal
+# from mpl_toolkits.mplot3d import Axes3D
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
