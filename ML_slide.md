@@ -125,7 +125,6 @@ slideOptions:
 | ![w:256](https://i.imgur.com/vwJKltu.png) | ![w:256](https://i.imgur.com/LSeODbq.png) |
 | :--------------------------------: | ---------------------------------- |
 | ![w:256](https://i.imgur.com/eXQNTmB.png) | ![w:256](https://i.imgur.com/s873ava.png) |
-
 * 我們選擇了上表最佳的兩個模型(AdaBoost,Decision Tree)和最低的(Linear SVM)額外加上KNN，比較PCA對特徵降維對準確性的影響
 
 <!-- ![](https://i.imgur.com/vwJKltu.png)
@@ -136,8 +135,32 @@ slideOptions:
 ----
 
 ## 4-2 Deploy model in MCUs
+![](img/run.gif)
 
+----
+
+因為要把模型用到MCU會需要比較多的步驟，因此這次在實際部署在MCU上目前只有使用PCA+KNN測試，更改參數到n=3時可以有效的(>90%)辨識工具機狀態，同時我們也嘗試定義其他工具機的狀態標籤，但因為感應器的限制當工具機高功率運作加速度會大於最大採樣值因此本次以三個狀態作為標記。
+![width:512px](img/knn.png)
+<!-- ![width:512px](img/knn.png) ![width:512px](img/device.png) -->
 
 ---
 
 # 5 Conclusion
+
+----
+
+- Conclusion on your findings or the contribution you made for this research
+    - 關於您的發現或您對本研究所做貢獻的結論
+
+---
+
+# 6 References
+- \[1\]A. Widodo, E. Y. Kim, J. D. Son, B. S. Yang, A. C. Tan, D. S. Gu, ... 
+and J. Mathew, “Fault diagnosis of low speed bearing based on relevance 
+vector machine and support vector machine,” Expert systems with 
+applications, vol. 36 no. 3, pp. 7252-7261, 2009.
+- \[2\]A. Widodo, E. Y. Kim, J. D. Son, B. S. Yang, A. C. Tan, D. S. Gu, ... 
+and J. Mathew, “Fault diagnosis of low speed bearing based on relevance 
+vector machine and support vector machine,” Expert systems with 
+applications, vol. 36 no. 3, pp. 7252-7261, 2009.
+- \[3\]Analysis  of  the  Rolling  Element  Bearing  data  set  of  the  Center  for Intelligent Maintenance Systems of the University of Cincinnat
