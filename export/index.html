@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Reveal JS presentation</title>
+
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Hakim El Hattab">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="http://localhost:64843/libs/reveal.js/4.1.3/reset.css">
+	<link rel="stylesheet" href="http://localhost:64843/libs/reveal.js/4.1.3/reveal.css">
+
+	
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	  <!-- highlight Theme -->
+  	
+	  <link rel="stylesheet" href="http://localhost:64843/libs/highlight.js/11.3.1/styles/monokai.min.css">
+	
+	
+		
+	<link rel="stylesheet" href="http://localhost:64843/libs/reveal.js/4.1.3/plugin/chalkboard/style.css">
+	
+	
+	
+		<link rel="stylesheet" href="http://localhost:64843/libs/reveal.js/4.1.3/plugin/customcontrols/style.css">
+	
+	<link rel="stylesheet" href="http://localhost:64843/libs/styles/tasklist.css">
+
+
+
+  <!-- Revealjs Theme -->
+  
+  	<link rel="stylesheet" href="http://localhost:64843/libs/reveal.js/4.1.3/theme/black.css" id="theme">
+  
+  
+
+
+  <!-- Revealjs Theme -->
+  
+
+ 
+</head>
+
+<body>
+  
+
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+      
+
+
+    
+        <section >
+            
+            <!--header:Marp -->
+<h1>使用 MEMS 感測器實現以 IoT 為基礎的預測性維護</h1>
+<h2>D0748284 楊孟軒</h2>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h1>1 Introduction</h1>
+<hr>
+<h2>1.1 Motivation</h2>
+<p>隨著工業機械能夠完成越來越複雜化、自動化的任務，這樣的發展意味著機械各部件得承受更為複雜的運作模式，也就是說，在該作業環境可能易遭受高溫高壓和高運轉量的困擾。因此，故障是不可避免的問題。由於機械設備故障容易導致經濟及能源消耗的損失，故機械狀態監控的需求變得日趨重要。
+簡單來說：<s>大專生計劃錢都拿了現在逃不掉了 嗚嗚</s></p>
+<hr>
+<h2>1.2 Task Definition</h2>
+<ol>
+<li>利用遷入式設備搜集工具機運作數據</li>
+<li>輕量化模型並直接在遷入式設備部署</li>
+<li>考慮到多個axis交互關係分析軸承運作狀態</li>
+</ol>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <!-- - Description on the research works/methods relevant to your research topic
+    - 與您的研究課題相關的研究工作/方法的描述 -->
+<h1>2 Dataset description</h1>
+<ol>
+<li>IMS dataset(aka NASA Bearing Dataset)</li>
+<li>實際設備搜集資料</li>
+</ol>
+<hr>
+<h2>2.1 Dataset description</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">IMS</th>
+<th style="text-align:center">實際設備搜集資料</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Channels</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">Number of files</td>
+<td style="text-align:center">$\approx 20M$</td>
+<td style="text-align:center">$\geq20k$</td>
+</tr>
+<tr>
+<td style="text-align:center">Window size(frequence)</td>
+<td style="text-align:center">10240</td>
+<td style="text-align:center">4096</td>
+</tr>
+<tr>
+<td style="text-align:center">setup</td>
+<td style="text-align:center"><img src="https://i.imgur.com/qwJZCCU.png" alt=""></td>
+<td style="text-align:center"><img src="https://i.imgur.com/i6AT8cn.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h1>3 Learning techniques</h1>
+<hr>
+<h2>3.1 feature extraction</h2>
+<!-- The extracted time domain features include $root-mean-square$ (RMS), $variance$ (VAR), $kurtosis$ (KUR), $peak value$ (PV), $skewness$ (SKW), $median$ (MED), $rms*kurtosis$ (F1) and $rms*peak$ (F2). The mathematical expression for the same is given as under : -->
+<p>將震動數據依照$window\ size$ 分開
+並分別計算個別的時域特徵($time domain features$)</p>
+<ul>
+<li>$\mathrm{RMS} =\sqrt{(\frac{1}{N})\sum_{i=1}<sup>{N}(x)</sup>{2}}$</li>
+<li>$\mathrm{VAR} = \frac{1}{N}\sum_{i=1}^{N}(x_i - \overline{x})^2$</li>
+<li>$\mathrm{KUR} = \frac{1}{N}\sum_{i=1}<sup>{N}\frac{(x_i-\overline{x})</sup>4}{\sigma^4}$</li>
+<li>$\mathrm{Peak Value} = \max \mathrm{value} - \min \mathrm{value}$</li>
+<li>$\mathrm{SKW} = \frac{1}{N}\sum_{i=1}<sup>{N}\frac{(x_i-\overline{x})</sup>3}{\sigma^3}$</li>
+<li>$\mathrm{MED} = (\frac{N+1}{2})^{th}$</li>
+</ul>
+<hr>
+<p><img src="https://i.imgur.com/fzxPtqb.png" alt="width:10240px"></p>
+<ul>
+<li>Normalized features used as training data</li>
+</ul>
+<hr>
+<h2>3.2 Classifiers model</h2>
+<!-- Compare several learning algorithms -->
+<p>分別用以下幾種演算法對資料進行訓練，比較輸出結果並考量實際效率以進行部署</p>
+<ol>
+<li>Nearest Neighbors</li>
+<li>Linear SVM</li>
+<li>RBF SVM</li>
+<li>Decision Tree</li>
+<li>Random Forest</li>
+<li>AdaBoost</li>
+<li>Naive Bayes</li>
+</ol>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h1>4 Result and disscussion</h1>
+<hr>
+<h2>4-1 Classification Results Obtained Without PCA</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">model</th>
+<th style="text-align:center">Accuracy(%)</th>
+<th style="text-align:center">Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>Nearest Neighbors</strong></td>
+<td style="text-align:center">93.4</td>
+<td style="text-align:center">N=3</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>Linear SVM</strong></td>
+<td style="text-align:center">83.2</td>
+<td style="text-align:center">kernel=“linear”, C=0.025</td>
+</tr>
+<tr>
+<td style="text-align:center">RBF SVM</td>
+<td style="text-align:center">93.4</td>
+<td style="text-align:center">gamma=2, C=1</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>Decision Tree</strong></td>
+<td style="text-align:center">97.9</td>
+<td style="text-align:center">max_depth=5</td>
+</tr>
+<tr>
+<td style="text-align:center">Random Forest</td>
+<td style="text-align:center">94.7</td>
+<td style="text-align:center">max_depth=5</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>AdaBoost</strong></td>
+<td style="text-align:center">98.4</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Naive Bayes</td>
+<td style="text-align:center">87.5</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>4-2 Classification Results Obtained using PCA</h2>
+<!-- ![](https://i.imgur.com/zQ9YmhO.png) -->
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><img src="https://i.imgur.com/vwJKltu.png" alt="w:256"></th>
+<th><img src="https://i.imgur.com/LSeODbq.png" alt="w:256"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="https://i.imgur.com/eXQNTmB.png" alt="w:256"></td>
+<td><img src="https://i.imgur.com/s873ava.png" alt="w:256"></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>我們選擇了上表最佳的兩個模型(AdaBoost,Decision Tree)和最低的(Linear SVM)額外加上KNN，比較PCA對特徵降維對準確性的影響</li>
+</ul>
+<!-- ![](https://i.imgur.com/vwJKltu.png)
+![](https://i.imgur.com/LSeODbq.png)
+![](https://i.imgur.com/eXQNTmB.png)
+![](https://i.imgur.com/pxvOibC.png) -->
+<hr>
+<h2>4-2 Deploy model in MCUs</h2>
+<p><img src="img/run.gif" alt=""></p>
+<hr>
+<p>因為要把模型用到MCU會需要比較多的步驟，因此這次在實際部署在MCU上目前只有使用PCA+KNN測試，更改參數到n=3時可以有效的(&gt;90%)辨識工具機狀態，同時我們也嘗試定義其他工具機的狀態標籤，但因為感應器的限制當工具機高功率運作加速度會大於最大採樣值因此本次以三個狀態作為標記。
+<img src="img/knn.png" alt="width:512px"></p>
+<!-- ![width:512px](img/knn.png) ![width:512px](img/device.png) -->
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h1>5 Conclusion</h1>
+<hr>
+<ul>
+<li>Conclusion on your findings or the contribution you made for this research
+<ul>
+<li>關於您的發現或您對本研究所做貢獻的結論</li>
+</ul>
+</li>
+</ul>
+
+            </section>
+    
+
+
+
+    
+        <section >
+            
+            <h1>6 References</h1>
+<ul>
+<li>[1]A. Widodo, E. Y. Kim, J. D. Son, B. S. Yang, A. C. Tan, D. S. Gu, …
+and J. Mathew, “Fault diagnosis of low speed bearing based on relevance
+vector machine and support vector machine,” Expert systems with
+applications, vol. 36 no. 3, pp. 7252-7261, 2009.</li>
+<li>[2]A. Widodo, E. Y. Kim, J. D. Son, B. S. Yang, A. C. Tan, D. S. Gu, …
+and J. Mathew, “Fault diagnosis of low speed bearing based on relevance
+vector machine and support vector machine,” Expert systems with
+applications, vol. 36 no. 3, pp. 7252-7261, 2009.</li>
+<li>[3]Analysis  of  the  Rolling  Element  Bearing  data  set  of  the  Center  for Intelligent Maintenance Systems of the University of Cincinnat</li>
+</ul>
+
+            </section>
+    
+
+
+    </div>
+
+
+  </div>
+
+  	
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/reveal.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/zoom/zoom.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/notes/notes.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/search/search.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/markdown/markdown.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/highlight/highlight.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/menu/menu.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/math/math.js"></script>
+
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/fullscreen/plugin.js"></script>
+  
+  	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/animate/plugin.js"></script>
+  	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/animate/svg.min.js"></script>
+  
+  	 <!--	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/anything/plugin.js"></script> -->
+
+ <!--	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/audio-slideshow/plugin.js"></script>  -->
+<!--	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/audio-slideshow/recorder.js"></script>-->
+<!--	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/audio-slideshow/RecordRTC.js"></script>-->
+
+<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/chalkboard/plugin.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/customcontrols/plugin.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/embed-tweet/plugin.js"></script>
+
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/chart/chart.min.js"></script>
+	<script src="http://localhost:64843/libs/reveal.js/4.1.3/plugin/chart/plugin.js"></script>
+
+  <script>
+
+		const printPlugins = [
+			RevealNotes, 
+			RevealHighlight,
+			RevealMath,
+			RevealAnimate,
+			RevealChalkboard, 
+			RevealEmbedTweet,
+			RevealChart,
+		];
+
+		const plugins =  [...printPlugins,
+		RevealZoom, 
+		RevealSearch, 
+				RevealMarkdown, 
+				RevealMenu, 
+				RevealFullscreen,
+				//RevealAnything,
+				//RevealAudioSlideshow,
+				//RevealAudioRecorder,
+				RevealCustomControls, 
+				// poll
+				// question
+				// seminar
+				 ]
+
+
+		// Also available as an ES module, see:
+		// https://revealjs.com/initialization/
+		Reveal.initialize({
+			controls: true,
+			controlsTutorial: true,
+			controlsLayout: 'bottom-right',
+			controlsBackArrows: 'faded',
+			progress: true,
+			slideNumber: false,
+			//#showSlideNumber "all" "print" "speaker"
+			hash: true,//#  hash: false,
+			//# respondToHashChanges: true,
+			//# history: false,
+			keyboard: true,
+			//#keyboardCondition: null,
+			overview: true,
+			center: true,
+			touch: true,
+			loop: false,
+			rtl: false,
+			//#navigationMode: 'default', linear grid
+			shuffle: false,
+			fragments: true,
+			fragmentInURL: false,
+			embedded: false,
+			help: true,
+			//#pause: true
+			showNotes: false,
+			autoPlayMedia: false, // TODO fix this to a nullable value
+			//#preloadIframes: null. true false
+			//#autoAnimate: true
+			//#autoAnimateMatcher: null,
+			//#autoAnimateEasing: 'ease',
+			//autoAnimateDuration: 1.0,
+			//#autoAnimateUnmatched: true
+			//#autoAnimateStyles: []
+			autoSlide: 0, // TODO fix this to a falseable value
+			autoSlideStoppable: true,
+			autoSlideMethod: '0',
+			defaultTiming: 120,
+			mouseWheel: false,
+			//#previewLinks: false
+			//#postMessage: true,  // TODO : this can cause issues with the vscode api ???
+			//#postMessageEvents: false,
+			//#focusBodyOnPageVisibilityChange: true,
+			transition: 'slide',
+			transitionSpeed: 'default',
+			backgroundTransition: 'fade',
+			//#pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
+			//#pdfSeparateFragments: true,
+			//#pdfPageHeightOffset: -1,
+			viewDistance: 3,
+			//#mobileViewDistance: 2,
+			display: 'block',
+			//#hideInactiveCursor: true,
+			//#hideCursorTime: 5000
+
+			// Parallax Background
+			parallaxBackgroundImage: '',
+			parallaxBackgroundSize: '',
+			parallaxBackgroundHorizontal: 0,
+			parallaxBackgroundVertical: 0,
+			
+			//Presentation Size
+			width: 960,
+			height: 700,
+			margin: 0.04,
+			minScale: 0.2,
+			maxScale: 2,
+			disableLayout: false,
+
+			audio: {
+				prefix: 'audio/', 	// audio files are stored in the "audio" folder
+				suffix: '.ogg',		// audio files have the ".ogg" ending
+				textToSpeechURL: null,  // the URL to the text to speech converter
+				defaultNotes: false, 	// use slide notes as default for the text to speech converter
+				defaultText: false, 	// use slide text as default for the text to speech converter
+				advance: 0, 		// advance to next slide after given time in milliseconds after audio has played, use negative value to not advance
+				autoplay: false,	// automatically start slideshow
+				defaultDuration: 5,	// default duration in seconds if no audio is available
+				defaultAudios: true,	// try to play audios with names such as audio/1.2.ogg
+				playerOpacity: 0.05,	// opacity value of audio player if unfocused
+				playerStyle: 'position: fixed; bottom: 4px; left: 25%; width: 50%; height:75px; z-index: 33;', // style used for container of audio controls
+				startAtFragment: false, // when moving to a slide, start at the current fragment or at the start of the slide
+			},
+			
+			chalkboard: { // font-awesome.min.css must be available
+					//src: "chalkboard/chalkboard.json",
+					storage: "chalkboard-demo",
+				},
+			
+			customcontrols: {
+					controls: [
+      						{
+						  id: 'toggle-overview',
+						  title: 'Toggle overview (O)',
+						  icon: '<i class="fa fa-th"></i>',
+						  action: 'Reveal.toggleOverview();'
+						}
+						,
+						{ icon: '<i class="fa fa-pen-square"></i>',
+						  title: 'Toggle chalkboard (B)',
+						  action: 'RevealChalkboard.toggleChalkboard();'
+						},
+						{ icon: '<i class="fa fa-pen"></i>',
+						  title: 'Toggle notes canvas (C)',
+						  action: 'RevealChalkboard.toggleNotesCanvas();'
+						}
+				]
+			},
+			chart: {
+					defaults: { 
+						color: 'lightgray', // color of labels
+						scale: { 
+							beginAtZero: true, 
+							ticks: { stepSize: 1 },
+							grid: { color: "lightgray" } , // color of grid lines
+						},
+					},
+					line: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ], "borderDash": [ [5,10], [0,0] ] }, 
+					bar: { backgroundColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+					pie: { backgroundColor: [ ["rgba(0,0,0,.8)" , "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"] ]},
+					radar: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+			},
+			math: {
+				mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+				config: 'TeX-AMS_HTML-full',
+				// pass other options into `MathJax.Hub.Config()`
+				TeX: { Macros: { RR: "{\\bf R}" } }
+				},
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: (window.location.search.match(/print-pdf/gi) ? printPlugins : plugins ) 
+		});
+			
+
+
+	    // Change chalkboard theme : 
+		function changeTheme(input) {
+			var config = {};
+			config.theme = input.value;
+			Reveal.getPlugin("RevealChalkboard").configure(config);
+			input.blur();
+		}
+
+		// // Handle the message inside the webview
+        // window.addEventListener('message', event => {
+
+        //     const message = event.data; // The JSON data our extension sent
+
+        //     switch (message.command) {
+        //         case 'refactor':
+        //             Reveal.toggleHelp();
+        //     }
+        // });
+
+		if (window.location.search.match(/print-pdf-now/gi)) {
+      		setTimeout(() => {
+				window.print();
+			  }, 2500);
+			
+    }
+		
+
+	</script>
+
+</body>
+
+</html>
