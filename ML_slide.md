@@ -123,11 +123,15 @@ math: katex
 ## 4.2 Classification Results Obtained using PCA
 
 ![](result_img/AdaBoost.png)
-![](result_img/Linear\ SVM.png)
-![](result_img/)
+![](result_img/Linear%20SVM.png)
 
+----
 
----
+![](result_img/Naive%20Bayes.png)
+![](result_img/Nearest%20Neighbors.png)
+![](result_img/Random%20Forest.png)
+
+----
 ## 4.3 Time it
 
 Nearest Neighbors
@@ -142,7 +146,7 @@ AdaBoost
 100 loops, best of 5: 10.5 ms per loop
 Naive Bayes
 1000 loops, best of 5: 666 µs per loop
-
+`Intel(R) Xeon(R) CPU @ 2.20GHz`
 
 ----
 
