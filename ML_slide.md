@@ -122,21 +122,32 @@ math: katex
 
 ## 4.2 Classification Results Obtained using PCA
 
-<!-- ![](https://i.imgur.com/zQ9YmhO.png) -->
+![](result_img/AdaBoost.png)
+![](result_img/Linear\ SVM.png)
+![](result_img/)
 
-| ![w:256](https://i.imgur.com/vwJKltu.png) | ![w:256](https://i.imgur.com/LSeODbq.png) |
-| :--------------------------------: | ---------------------------------- |
-| ![w:256](https://i.imgur.com/eXQNTmB.png) | ![w:256](https://i.imgur.com/s873ava.png) |
-* 我們選擇了上表最佳的兩個模型(AdaBoost,Decision Tree)和最低的(Linear SVM)額外加上KNN，比較PCA對特徵降維對準確性的影響
 
-<!-- ![](https://i.imgur.com/vwJKltu.png)
-![](https://i.imgur.com/LSeODbq.png)
-![](https://i.imgur.com/eXQNTmB.png)
-![](https://i.imgur.com/pxvOibC.png) -->
+---
+## 4.3 Time it
+
+Nearest Neighbors
+100 loops, best of 5: 15.5 ms per loop
+Linear SVM
+100 loops, best of 5: 3.57 ms per loop
+Decision Tree
+1000 loops, best of 5: 570 µs per loop
+Random Forest
+100 loops, best of 5: 2.24 ms per loop
+AdaBoost
+100 loops, best of 5: 10.5 ms per loop
+Naive Bayes
+1000 loops, best of 5: 666 µs per loop
+
 
 ----
 
-## 4.3 Deploy model in MCUs
+## 4.4 Deploy model in MCUs
+
 ![](img/run.gif)
 
 ---
