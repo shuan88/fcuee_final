@@ -8,6 +8,7 @@ slideOptions:
   # center: False
   slideNumber: true
   paginate: true
+math: katex
 ---
 
 <!--header:Marp -->
@@ -104,7 +105,7 @@ slideOptions:
 
 ----
 
-## 4-1 Classification Results Obtained Without PCA
+## 4.1 Classification Results Obtained Without PCA
 
 |            model            | Accuracy(%) |        Parameter        |
 | :-------------------------: | :---------: | :----------------------: |
@@ -118,7 +119,7 @@ slideOptions:
 
 ----
 
-## 4-2 Classification Results Obtained using PCA
+## 4.2 Classification Results Obtained using PCA
 
 <!-- ![](https://i.imgur.com/zQ9YmhO.png) -->
 
@@ -134,7 +135,7 @@ slideOptions:
 
 ----
 
-## 4-2 Deploy model in MCUs
+## 4.3 Deploy model in MCUs
 ![](img/run.gif)
 
 ---
@@ -142,23 +143,23 @@ slideOptions:
 # 5 Conclusion
 ----
 
+## 5.1 Conclusion
+
 要把模型用到MCU會需要比較多的步驟，因此這次在實際部署在MCU上目前只有使用PCA+KNN測試，同時我們也嘗試定義其他工具機的狀態標籤，但因為感應器的限制，當工具機高功率運作加速度會大於最大採樣值，因此本次以三個狀態作為標記。
 ![width:512px](img/knn.png)
 <!-- ![width:512px](img/knn.png) ![width:512px](img/device.png) -->
 <!-- PCA=3時可以有效的(>90%)辨識工具機狀態 -->
 ----
 
-## 未來展望
-這次研究在實際部署中，遇到最大的問題是要在兼顧模型正確性的同時顧慮到MCU的計算量，因此希望未來可以用兩段式的架構，先藉由前端MCU搜集數據後傳送道伺服器分析，以使用更複雜的魔性進行處理
+## 5.2 未來展望
+這次研究在實際部署中，遇到最大的問題是要在兼顧模型正確性的同時顧慮到MCU的計算量，因此希望未來可以用兩段式的架構，先藉由前端MCU搜集數據後傳送道伺服器分析，以使用更複雜的模型進行處理
+
 ---
 
 # 6 References
-- \[1\]A. Widodo, E. Y. Kim, J. D. Son, B. S. Yang, A. C. Tan, D. S. Gu, ... 
+- \[1\]Analysis of NASA Bearing Dataset of the University of Cincinnati by Means of Hjorth’s Parameters
+- \[2\]Analysis  of  the  Rolling  Element  Bearing  data  set  of  the  Center  for Intelligent Maintenance Systems of the University of Cincinnat
+- \[3\] A. Widodo, E. Y. Kim, J. D. Son, B. S. Yang, A. C. Tan, D. S. Gu, ... 
 and J. Mathew, “Fault diagnosis of low speed bearing based on relevance 
 vector machine and support vector machine,” Expert systems with 
 applications, vol. 36 no. 3, pp. 7252-7261, 2009.
-- \[2\]A. Widodo, E. Y. Kim, J. D. Son, B. S. Yang, A. C. Tan, D. S. Gu, ... 
-and J. Mathew, “Fault diagnosis of low speed bearing based on relevance 
-vector machine and support vector machine,” Expert systems with 
-applications, vol. 36 no. 3, pp. 7252-7261, 2009.
-- \[3\]Analysis  of  the  Rolling  Element  Bearing  data  set  of  the  Center  for Intelligent Maintenance Systems of the University of Cincinnat
