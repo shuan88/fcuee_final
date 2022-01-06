@@ -44,6 +44,7 @@ math: katex
 1. IMS dataset(aka NASA Bearing Dataset)
 2. 實際設備搜集資料
 ![](img/viber.png)
+* fig2-1 震動感應器原始數據
 ----
 
 ## 2.1 Dataset description
